@@ -1,0 +1,24 @@
+{
+  "name": "gulp-workflow",
+  "version": "1.0.0",
+  "description": "A little Gulp workflow that I bundled together",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JMac2097/gulp-workflow.git"
+  },
+  "author": "John McKie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JMac2097/gulp-workflow/issues"
+  },
+  "homepage": "https://github.com/JMac2097/gulp-workflow#readme",
+  "devDependencies": {
+    "browser-sync": "^2.24.5",
+    "gulp": "^4.0.0",
+    "gulp-sass": "^4.0.1"
+  }
+}
