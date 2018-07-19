@@ -20,7 +20,7 @@ gulp.task('sass', function() {
 // Watch And Serve
 gulp.task('serve',  gulp.parallel('sass', function() {
     browserSync.init({
-        server: '/src'
+        server: 'src/'
     });
 
     gulp.watch(SCSS_PATH, gulp.parallel('sass'));
