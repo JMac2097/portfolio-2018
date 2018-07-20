@@ -1,31 +1,39 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
 const sass = require('gulp-sass');
+const babel = require('gulp-babel');
 
 // Path Variables
 const HTML_PATH = 'src/*.html';
 // const CSS_PATH = 'src/css/**/*.css';
 const SCSS_PATH = 'src/scss/*.scss';
+const SCRIPTS_PATH = 'src/scripts/*.js';
 
 
 // Compile sass
-gulp.task('sass', function() {
-    return gulp.src(SCSS_PATH)
+gulp.task('sass', () => 
+    gulp.src(SCSS_PATH)
     .pipe(sass())
     .pipe(gulp.dest('public/css'))
-    .pipe(browserSync.stream())
-});
+);
 
+// Babel ES6 
+gulp.task('scripts', () => 
+    gulp.src(SCRIPTS_PATH)
+    .pipe(babel({
+        presets: ['env']
+    }))
+    .pipe(gulp.dest('public/scripts'))
+);
 
-// Watch And Serve
-gulp.task('serve',  gulp.parallel('sass', function() {
+// Serve
+gulp.task('serve', () => 
     browserSync.init({
-        server: 'src/'
-    });
-
-    gulp.watch(SCSS_PATH, gulp.parallel('sass'));
-    gulp.watch(HTML_PATH).on('change', browserSync.reload);
-}));
+        server: {
+            baseDir: "./"
+        }
+    })
+);
 
 // Default
-gulp.task('default', gulp.parallel('serve'));
+gulp.task('default', ['sass','scripts','serve']);
