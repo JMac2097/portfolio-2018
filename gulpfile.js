@@ -51,7 +51,7 @@ gulp.task('images', () => {
 });
 
 // Serve
-gulp.task('serve', ['sass'], () => 
+gulp.task('serve', () => 
     browserSync.init({
         server: {
             baseDir: "./build/html"
