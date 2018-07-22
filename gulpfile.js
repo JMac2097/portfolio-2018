@@ -2,6 +2,14 @@ const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
 const sass = require('gulp-sass');
 const babel = require('gulp-babel');
+const newer = require('gulp-newer');
+const imagemin = require('gulp-imagemin');
+
+// folders
+const folder = {
+    src: 'src/',
+    build: 'build/'
+}
 
 // Path Variables
 const HTML_PATH = 'src/*.html';
@@ -25,6 +33,15 @@ gulp.task('scripts', () =>
     }))
     .pipe(gulp.dest('public/scripts'))
 );
+
+// images task
+gulp.task('images', () => {
+    let out = folder.build + 'images/';
+    gulp.src(folder.src + 'images/**/*')
+        .pipe(newer(out))
+        .pipe(imagemin({ optimizationLevel: 5 }))
+        .pipe(gulp.dest(out));
+});
 
 // Serve
 gulp.task('serve', () => 
