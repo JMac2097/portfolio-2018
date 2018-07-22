@@ -4,6 +4,7 @@ const sass = require('gulp-sass');
 const babel = require('gulp-babel');
 const newer = require('gulp-newer');
 const imagemin = require('gulp-imagemin');
+const htmlclean = require('gulp-htmlclean');
 
 // folders
 const folder = {
@@ -12,17 +13,23 @@ const folder = {
 }
 
 // Path Variables
-const HTML_PATH = 'src/*.html';
-// const CSS_PATH = 'src/css/**/*.css';
-const SCSS_PATH = 'src/scss/*.scss';
-const SCRIPTS_PATH = 'src/scripts/*.js';
+const SCSS_PATH = '/src/scss/*.scss';
+const SCRIPTS_PATH = '/src/scripts/*.js';
 
+gulp.task('html', ['sass','images'], () => {
+    let out = folder.build + 'html/';
+        gulp.src(folder.src + 'html/**/*')
+        .pipe(newer(out))
+        .pipe(htmlclean())
+        .pipe(gulp.dest(out))        
+});
 
 // Compile sass
 gulp.task('sass', () => 
     gulp.src(SCSS_PATH)
     .pipe(sass())
-    .pipe(gulp.dest('public/css'))
+    .pipe(gulp.dest('build/css'))
+    .pipe(browserSync.stream())
 );
 
 // Babel ES6 
@@ -44,13 +51,13 @@ gulp.task('images', () => {
 });
 
 // Serve
-gulp.task('serve', () => 
+gulp.task('serve', ['sass'], () => 
     browserSync.init({
         server: {
-            baseDir: "./"
+            baseDir: "./build/html"
         }
     })
 );
 
 // Default
-gulp.task('default', ['sass','scripts','serve']);
+gulp.task('default', ['sass','images','html','scripts','serve']);

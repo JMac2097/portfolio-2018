@@ -59,3 +59,6 @@ typings/
 
 # next.js build output
 .next
+
+# don't need build going up each time
+build
