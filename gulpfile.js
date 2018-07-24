@@ -8,16 +8,25 @@ var cssnano = require('gulp-cssnano');
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
 var del = require('del');
+var runSequence = require('run-sequence');
+var autoPrefixer = require('gulp-autoprefixer');
+
 
 // sass task
 gulp.task('sass', function() {
     return gulp.src('app/scss/**/*.scss')
     .pipe(sass())
+    .pipe(autoPrefixer({
+        browsers: ['last 2 versions'],
+        cascade: false
+    }))
     .pipe(gulp.dest('app/css'))
     .pipe(browserSync.reload({
         stream: true
     }))
 });
+
+
 
 // image minification
 gulp.task('images', function() {
@@ -70,4 +79,19 @@ gulp.task('watch', ['serve', 'sass'], function(){
     gulp.watch('app/scss/**/*.scss', ['sass']);
     gulp.watch('app/*.html', browserSync.reload);
     gulp.watch('app/js/**/*.js', browserSync.reload);
+});
+
+// build
+gulp.task('build', function(callback) {
+    runSequence('clean:dist',
+    ['sass', 'useref', 'images', 'fonts'],
+    callback  
+    )  
+});
+
+// default
+gulp.task('default', function(callback) {
+    runSequence(['sass', 'serve', 'watch'],
+    callback
+    )
 });
