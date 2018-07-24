@@ -10,6 +10,7 @@ var cache = require('gulp-cache');
 var del = require('del');
 var runSequence = require('run-sequence');
 var autoPrefixer = require('gulp-autoprefixer');
+var babel = require('gulp-babel');
 
 
 // sass task
@@ -26,7 +27,13 @@ gulp.task('sass', function() {
     }))
 });
 
-
+// scripts task
+gulp.task('scripts', function() {
+    return gulp.src('app/js/**/*.js')
+    .pipe(babel({
+        presets: ['env']
+    }))
+});
 
 // image minification
 gulp.task('images', function() {
@@ -75,7 +82,7 @@ gulp.task('serve', function() {
 });
 
 // watch
-gulp.task('watch', ['serve', 'sass'], function(){
+gulp.task('watch', ['serve', 'sass', 'scripts'], function(){
     gulp.watch('app/scss/**/*.scss', ['sass']);
     gulp.watch('app/*.html', browserSync.reload);
     gulp.watch('app/js/**/*.js', browserSync.reload);
@@ -84,14 +91,14 @@ gulp.task('watch', ['serve', 'sass'], function(){
 // build
 gulp.task('build', function(callback) {
     runSequence('clean:dist',
-    ['sass', 'useref', 'images', 'fonts'],
+    ['sass', 'scripts', 'useref', 'images', 'fonts'],
     callback  
     )  
 });
 
 // default
 gulp.task('default', function(callback) {
-    runSequence(['sass', 'serve', 'watch'],
+    runSequence(['sass', 'scripts', 'serve', 'watch'],
     callback
     )
 });
