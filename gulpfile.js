@@ -33,6 +33,7 @@ gulp.task('scripts', function() {
     .pipe(babel({
         presets: ['env']
     }))
+    .pipe(gulp.dest('app/es5'))
 });
 
 // image minification
