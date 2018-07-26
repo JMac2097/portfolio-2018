@@ -22,7 +22,7 @@ var paths = {
 
     tmp: 'tmp',
     tmpINDEX: 'tmp/index.html',
-    tmpCSS: 'tmp/styles/**/*.css',
+    tmpCSS: 'tmp/styles/',
     tmpJS: 'tmp/scripts/**/*.js',
     tmpIMAGES: 'src/images/**/*.+(png|jpg|gif|svg)',
     
@@ -49,70 +49,5 @@ gulp.task('sass', function() {
 // scripts task
 gulp.task('scripts', function() {
     return gulp.src(paths.srcJS)
-    .pipe(babel({
-        presets: ['env']
-    }))
     .pipe(gulp.dest(paths.tmpJS))
-});
-
-// image minification
-gulp.task('images', function() {
-    return gulp.src(paths.srcIMAGES)
-    .pipe(cache(imagemin({
-        interlaced: true
-    })))
-    .pipe(gulp.dest(paths.tmpIMAGES))
-});
-
-// clean distribution
-gulp.task('clean:dist', function() {
-    return del.sync(paths.DIST);
-});
-
-// clean image cache
-gulp.task('cache:clear', function(callback) {
-    return cache.clearAll(callback)
-});
-
-// useref task
-gulp.task('useref', function() {
-    return gulp.src(paths.tmpHTML)
-    .pipe(useref())
-    // minifies only if it's a JavaScript file
-    .pipe(gulpIf('*.js', uglify()))
-    .pipe(gulp.dest(paths.distJS))
-    //minifies if it's a CSS file
-    .pipe(gulpIf('*.css', cssnano()))
-    .pipe(gulp.dest(paths.distCSS))
-});
-
-// serve
-gulp.task('serve', function() {
-    browserSync.init({
-        server: {
-            baseDir: 'app'
-        },
-    })
-});
-
-// watch
-gulp.task('watch', ['serve', 'sass', 'scripts'], function(){
-    gulp.watch('src/*.html', browserSync.reload);
-    gulp.watch('src/scss/**/*.scss', ['sass']);
-    gulp.watch('src/scrips/**/*.js', browserSync.reload);
-});
-
-// build
-gulp.task('build', function(callback) {
-    runSequence('clean:dist',
-    ['sass', 'scripts', 'useref', 'images', 'fonts'],
-    callback  
-    )  
-});
-
-// default
-gulp.task('default', function(callback) {
-    runSequence(['sass', 'scripts', 'serve', 'watch'],
-    callback
-    )
 });
