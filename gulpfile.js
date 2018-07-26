@@ -20,11 +20,12 @@ var paths = {
     srcJS: 'src/scripts/**/*.js',
     srcIMAGES: 'src/images/**/*.+(png|jpg|gif|svg)',
 
+    // Watch these variable -- they might not be correct
     tmp: 'tmp',
-    tmpINDEX: 'tmp/index.html',
+    tmpINDEX: 'tmp/',
     tmpCSS: 'tmp/styles/',
-    tmpJS: 'tmp/scripts/**/*.js',
-    tmpIMAGES: 'src/images/**/*.+(png|jpg|gif|svg)',
+    tmpJS: 'tmp/scripts/',
+    tmpIMAGES: 'src/images/)',
     
     dist: 'dist',
     distINDEX: 'dist/index.html',
