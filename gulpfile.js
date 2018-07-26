@@ -20,18 +20,17 @@ var paths = {
     srcJS: 'src/scripts/**/*.js',
     srcIMAGES: 'src/images/**/*.+(png|jpg|gif|svg)',
 
-    // Watch these variable -- they might not be correct
     tmp: 'tmp',
     tmpINDEX: 'tmp/',
-    tmpCSS: 'tmp/styles/',
-    tmpJS: 'tmp/scripts/',
-    tmpIMAGES: 'src/images/)',
+    tmpCSS: 'tmp/styles/**/*.css',
+    tmpJS: 'tmp/scripts/**/*.js',
+    tmpIMAGES: 'tmp/images/**/*.+(png|jpg|gif|svg)',
     
     dist: 'dist',
     distINDEX: 'dist/index.html',
     distCSS: 'dist/styles/**/*.css',
     distJS: 'dist/scripts/**/*.js',
-    distIMAGES: 'src/images/**/*.+(png|jpg|gif|svg)'
+    distIMAGES: 'dist/images/**/*.+(png|jpg|gif|svg)'
 };
 
 // html task
@@ -44,11 +43,27 @@ gulp.task('html', function() {
 gulp.task('sass', function() {
     return gulp.src(paths.srcSASS)
     .pipe(sass())
-    .pipe(gulp.dest(paths.tmpCSS))
+    .pipe(gulp.dest(paths.tmp))
 });
 
 // scripts task
 gulp.task('scripts', function() {
     return gulp.src(paths.srcJS)
-    .pipe(gulp.dest(paths.tmpJS))
+    .pipe(gulp.dest(paths.tmp))
+});
+
+// watch
+gulp.task('watch', ['serve', 'sass', 'scripts'], function(){
+    gulp.watch(paths.srcHTML, browserSync.reload);
+    gulp.watch(paths.srcSASS, ['sass']);
+    gulp.watch(paths.srcJS, browserSync.reload);
+});
+
+// serve
+gulp.task('serve',['html', 'sass', 'scripts'], function() {
+    browserSync.init({
+        server: {
+            baseDir: paths.tmp
+        },
+    })
 });
