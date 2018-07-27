@@ -52,18 +52,27 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest(paths.tmp))
 });
 
-// watch
-gulp.task('watch', ['serve', 'sass', 'scripts'], function(){
-    gulp.watch(paths.srcHTML, browserSync.reload);
-    gulp.watch(paths.srcSASS, ['sass']);
-    gulp.watch(paths.srcJS, browserSync.reload);
+// image minification
+gulp.task('images', function() {
+    return gulp.src(paths.srcIMAGES)
+    .pipe(cache(imagemin({
+        interlaced: true
+    })))
+    .pipe(gulp.dest(paths.tmpIMAGES))
 });
 
 // serve
-gulp.task('serve',['html', 'sass', 'scripts'], function() {
+gulp.task('serve',['html', 'sass', 'scripts', 'images'], function() {
     browserSync.init({
         server: {
             baseDir: paths.tmp
         },
     })
+});
+
+// watch
+gulp.task('watch', ['serve', 'sass', 'scripts', 'images'], function(){
+    gulp.watch(paths.srcHTML, browserSync.reload);
+    gulp.watch(paths.srcSASS, ['sass']);
+    gulp.watch(paths.srcJS, browserSync.reload);
 });
