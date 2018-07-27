@@ -20,17 +20,24 @@ var paths = {
     srcJS: 'src/scripts/**/*.js',
     srcIMAGES: 'src/images/**/*.+(png|jpg|gif|svg)',
 
-    tmp: 'tmp',
+    tmp: 'tmp/',
     tmpINDEX: 'tmp/',
     tmpCSS: 'tmp/styles/**/*.css',
     tmpJS: 'tmp/scripts/**/*.js',
     tmpIMAGES: 'tmp/images/**/*.+(png|jpg|gif|svg)',
     
-    dist: 'dist',
+    dist: 'dist/',
     distINDEX: 'dist/index.html',
     distCSS: 'dist/styles/**/*.css',
     distJS: 'dist/scripts/**/*.js',
     distIMAGES: 'dist/images/**/*.+(png|jpg|gif|svg)'
+};
+//  destination variables
+var dest = {
+    tmp: 'tmp/',
+    tmpCSS: 'tmp/styles/',
+    tmpJS: 'tmp/scripts/',
+    tmpIMAGES: 'tmp/images/',
 };
 
 // html task
@@ -43,13 +50,16 @@ gulp.task('html', function() {
 gulp.task('sass', function() {
     return gulp.src(paths.srcSASS)
     .pipe(sass())
-    .pipe(gulp.dest(paths.tmp))
+    .pipe(gulp.dest(dest.tmpCSS))
 });
 
 // scripts task
 gulp.task('scripts', function() {
     return gulp.src(paths.srcJS)
-    .pipe(gulp.dest(paths.tmp))
+    .pipe(babel({
+        presets: ['env']
+    }))
+    .pipe(gulp.dest(dest.tmpJS))
 });
 
 // image minification
@@ -58,7 +68,7 @@ gulp.task('images', function() {
     .pipe(cache(imagemin({
         interlaced: true
     })))
-    .pipe(gulp.dest(paths.tmpIMAGES))
+    .pipe(gulp.dest(dest.tmpIMAGES))
 });
 
 // serve
@@ -71,8 +81,6 @@ gulp.task('serve',['html', 'sass', 'scripts', 'images'], function() {
 });
 
 // watch
-gulp.task('watch', ['serve', 'sass', 'scripts', 'images'], function(){
-    gulp.watch(paths.srcHTML, browserSync.reload);
-    gulp.watch(paths.srcSASS, ['sass']);
-    gulp.watch(paths.srcJS, browserSync.reload);
+gulp.task('watch', ['serve'], function(){
+    gulp.watch(paths.src, ['serve']);
 });
