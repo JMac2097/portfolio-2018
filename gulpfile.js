@@ -51,6 +51,7 @@ gulp.task('sass', function() {
     return gulp.src(paths.srcSASS)
     .pipe(sass())
     .pipe(gulp.dest(dest.tmpCSS))
+    .pipe(browserSync.stream());
 });
 
 // scripts task
@@ -78,9 +79,13 @@ gulp.task('serve',['html', 'sass', 'scripts', 'images'], function() {
             baseDir: paths.tmp
         },
     })
+    gulp.watch(paths.srcSASS, ['sass']);
+    gulp.watch(paths.srcSASS).on('change', browserSync.reload);
+    gulp.watch(paths.srcHTML, ['html']);
+    gulp.watch(paths.srcHTML).on('change', browserSync.reload);
+    gulp.watch(paths.srcJS, ['scripts']);
+    gulp.watch(paths.srcJS).on('change', browserSync.reload);
 });
 
-// watch
-gulp.task('watch', ['serve'], function(){
-    gulp.watch(paths.src, ['serve']);
-});
+
+gulp.task('default', ['serve']);
