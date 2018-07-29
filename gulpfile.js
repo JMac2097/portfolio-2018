@@ -145,3 +145,8 @@ gulp.task('dist:clean', function() {
 });
 
 gulp.task('prod', ['dist:clean', 'prod:html', 'prod:css', 'prod:images', 'prod:js']);
+
+// === Notes ==============================================================================
+
+// Maybe add in a CSS task, or someway of just having reset ready to go
+// Maybe some templating options
