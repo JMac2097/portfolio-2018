@@ -54,7 +54,13 @@ gulp.task('html', function() {
 gulp.task('sass', function() {
     return gulp.src(paths.srcSASS)
     .pipe(sourcemaps.init())
-    .pipe(sass(sassOptions).on('error', sass.logError))
+    .pipe(sass({
+        style: 'compressed',
+        errLogToConsole: false,
+        onError: function(err) {
+            return notify().write(err);
+        }
+    }))
     .pipe(sourcemaps.write())
     .pipe(autoprefixer())
     .pipe(gulp.dest(dest.tmpCSS))
