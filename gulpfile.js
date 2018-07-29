@@ -148,5 +148,5 @@ gulp.task('prod', ['dist:clean', 'prod:html', 'prod:css', 'prod:images', 'prod:j
 
 // === Notes ==============================================================================
 
-// Maybe add in a CSS task, or someway of just having reset ready to go
 // Maybe some templating options
+// Deal with multiple html files better -- again partials here
