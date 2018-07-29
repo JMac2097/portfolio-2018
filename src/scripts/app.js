@@ -1,5 +1,5 @@
 const derek = () => {
-    console.log(`ES6 test + gulp watch test passed !!!`);
+    console.log(`Gulp is watching you`);
 }
 
 derek();
