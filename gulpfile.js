@@ -11,6 +11,7 @@ var autoPrefixer = require('gulp-autoprefixer');
 var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
+var jshint = require('gulp-jshint');
 var sassOptions = {
     errLogToConsole: true,
     outputStyle: 'expanded'
@@ -63,6 +64,8 @@ gulp.task('sass', function() {
 // scripts task
 gulp.task('scripts', function() {
     return gulp.src(paths.srcJS)
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
     .pipe(babel({
         presets: ['env']
     }))
