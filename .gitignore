@@ -61,5 +61,6 @@ typings/
 .next
 
 # don't need build going up each time
-dist/*
-tmp/*
+dist/
+tmp/
+tmp/styles/*.css
