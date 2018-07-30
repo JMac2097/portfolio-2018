@@ -150,3 +150,5 @@ gulp.task('prod', ['dist:clean', 'prod:html', 'prod:css', 'prod:images', 'prod:j
 
 // Maybe some templating options
 // Deal with multiple html files better -- again partials here
+// Better image compression?
+// Better error handling
