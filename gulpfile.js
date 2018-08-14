@@ -152,3 +152,4 @@ gulp.task('prod', ['dist:clean', 'prod:html', 'prod:css', 'prod:images', 'prod:j
 // Deal with multiple html files better -- again partials here
 // Better image compression?
 // Better error handling
+// Create task that clears out the temp file as well as the dist file
